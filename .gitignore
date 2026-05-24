@@ -1,0 +1,56 @@
+# --- Gradle ---
+.gradle/
+build/
+
+# --- Minecraft Dev ---
+run/
+libs/
+
+# --- IDE ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.factorypath
+.project
+.settings/
+bin/
+out/
+.vscode/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# --- Agent / AI Tools ---
+.sisyphus/
+.opencode/
+.cursor/
+.specstory/
+.windsurfrules
+.aider*
+*_copilot_instructions*
+
+# --- Environment ---
+.env
+.env.local
+*.local
+
+# --- Logs ---
+*.log
+
+# --- Build Artifacts ---
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.class
+*.war
+*.zip
+*.tar.gz
+
+# --- Node (if any) ---
+node_modules/
