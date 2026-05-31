@@ -16,14 +16,15 @@
 
 ## 支持的版本
 
-| Minecraft | Java |
-|-----------|------|
-| 1.18.2, 1.19.4 | Java 17 |
-| 1.20.1 – 1.20.6 | Java 21 |
-| 1.21.1 – 1.21.11 | Java 21 |
-| 26.1（快照） | Java 25 |
+| Minecraft        | Java    | Loom 插件             |
+|------------------|---------|---------------------|
+| 1.18.2, 1.19.4   | Java 17 | `fabric-loom-remap` |
+| 1.20.1 – 1.20.6  | Java 21 | `fabric-loom-remap` |
+| 1.21.1 – 1.21.11 | Java 21 | `fabric-loom-remap` |
+| 26.1             | Java 25 | `fabric-loom`（无混淆）  |
 
-> 单一代码库，13 个版本子项目，预处理器处理所有版本差异。
+> 单一代码库，14 个版本子项目，[ReplayMod preprocessor](https://github.com/ReplayMod/preprocessor) 处理所有版本差异。
+> 构建结构遵循 [fabric-mod-template](https://github.com/Fallen-Breath/fabric-mod-template)。
 
 ## 命令
 
@@ -48,45 +49,45 @@
 
 ### C2S — `GetItemFromInventoryPayload`
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `itemId` | `string` | 物品标识（如 `minecraft:diamond`） |
-| `pos` | `BlockPos` | 容器坐标 |
-| `slot` | `int` | 槽位索引 |
+| 字段       | 类型         | 说明                          |
+|----------|------------|-----------------------------|
+| `itemId` | `string`   | 物品标识（如 `minecraft:diamond`） |
+| `pos`    | `BlockPos` | 容器坐标                        |
+| `slot`   | `int`      | 槽位索引                        |
 
 ### C2S — `ScanContainerPayload`
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
+| 字段    | 类型         | 说明       |
+|-------|------------|----------|
 | `pos` | `BlockPos` | 要扫描的容器坐标 |
 
 ### S2C — `GetItemResultPayload`
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `pos` | `BlockPos` | 回显的容器坐标 |
-| `resultType` | `ResultType` | 结果枚举 |
+| 字段           | 类型           | 说明      |
+|--------------|--------------|---------|
+| `pos`        | `BlockPos`   | 回显的容器坐标 |
+| `resultType` | `ResultType` | 结果枚举    |
 
 ### S2C — `ScanContainerResultPayload`
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| `pos` | `BlockPos` | 回显的容器坐标 |
+| 字段        | 类型                | 说明                             |
+|-----------|-------------------|--------------------------------|
+| `pos`     | `BlockPos`        | 回显的容器坐标                        |
 | `entries` | `List<SlotEntry>` | 非空槽位列表：`(slot, itemId, count)` |
 
 ### 结果类型
 
-| 返回值 | 含义 |
-|--------|------|
-| `SUCCESS` | 已从容器取出物品并给予玩家 |
-| `PLAYER_TOO_FAR` | 超出交互范围 |
-| `CONTAINER_NOT_LOADED` | 目标区块未加载 |
-| `CONTAINER_NOT_FOUND` | 坐标处无方块实体 |
-| `NOT_A_CONTAINER` | 方块实体不是容器 |
-| `SLOT_EMPTY` | 槽位为空或超出范围 |
-| `ITEM_NOT_MATCH` | 槽位中的物品与请求不匹配 |
-| `INTERNAL_ERROR` | 服务端意外错误 |
-| `UNKNOWN` | 无法识别的结果 |
+| 返回值                    | 含义            |
+|------------------------|---------------|
+| `SUCCESS`              | 已从容器取出物品并给予玩家 |
+| `PLAYER_TOO_FAR`       | 超出交互范围        |
+| `CONTAINER_NOT_LOADED` | 目标区块未加载       |
+| `CONTAINER_NOT_FOUND`  | 坐标处无方块实体      |
+| `NOT_A_CONTAINER`      | 方块实体不是容器      |
+| `SLOT_EMPTY`           | 槽位为空或超出范围     |
+| `ITEM_NOT_MATCH`       | 槽位中的物品与请求不匹配  |
+| `INTERNAL_ERROR`       | 服务端意外错误       |
+| `UNKNOWN`              | 无法识别的结果       |
 
 ## 工作流程
 

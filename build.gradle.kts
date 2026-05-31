@@ -1,23 +1,15 @@
-buildscript {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven("https://jitpack.io")
-    }
-    dependencies {
-        classpath("com.github.Fallen-Breath:remap:2ae23d72bb")
-    }
-}
-
 plugins {
     id("maven-publish")
-    id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT" apply false
-    id("net.fabricmc.fabric-loom-remap") version "1.15-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom") version "1.16-SNAPSHOT" apply false
+    id("net.fabricmc.fabric-loom-remap") version "1.16-SNAPSHOT" apply false
 
     // https://github.com/ReplayMod/preprocessor
     // https://github.com/Fallen-Breath/preprocessor
     // https://jitpack.io/#Fallen-Breath/preprocessor
     id("com.replaymod.preprocess") version "c5abb4fb12"
+
+    // https://github.com/Fallen-Breath/yamlang
+    id("me.fallenbreath.yamlang") version "1.5.0" apply false
 }
 
 preprocess {
@@ -36,6 +28,7 @@ preprocess {
     val mc12106 = createNode("1.21.6", 1_21_06, "mojang")
     val mc12109 = createNode("1.21.9", 1_21_09, "mojang")
     val mc12111 = createNode("1.21.11", 1_21_11, "mojang")
+    val mc2601  = createNode("26.1", 26_01_00, "mojang")
 
     mc11802.link(mc11904, file("versions/mapping-1.18.2-1.19.4.txt"))
     mc11904.link(mc12001, null)
@@ -49,6 +42,36 @@ preprocess {
     mc12105.link(mc12106, null)
     mc12106.link(mc12109, null)
     mc12109.link(mc12111, null)
+    mc12111.link(mc2601, file("versions/mapping-1.21.11-26.1.txt"))
 
-    // mcVersion is set in each subproject's gradle.properties
+    // Propagate mcVersion to subproject ext (template pattern)
+    for (node in getNodes()) {
+        val projectName: String = node.project
+        findProject(projectName)?.extra?.set("mcVersion", node.mcVersion)
+    }
+}
+
+// ============================================================================
+// buildAndGather - collects all version JARs into root build/libs/ (template pattern)
+// ============================================================================
+
+tasks.register("buildAndGather") {
+    subprojects {
+        dependsOn(tasks.named("build"))
+    }
+    doFirst {
+        println("Gathering builds")
+        val buildLibs = { p: Project -> p.layout.buildDirectory.dir("libs").get().asFile.toPath() }
+        delete(fileTree(buildLibs(rootProject)) { include("*") })
+        subprojects {
+            copy {
+                from(buildLibs(project)) {
+                    include("*.jar")
+                    exclude("*-dev.jar", "*-sources.jar", "*-shadow.jar")
+                }
+                into(buildLibs(rootProject))
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+            }
+        }
+    }
 }

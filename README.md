@@ -16,14 +16,15 @@ Clients send item requests → server validates distance, container state, and i
 
 ## Supported Versions
 
-| Minecraft | Java |
-|-----------|------|
-| 1.18.2, 1.19.4 | Java 17 |
-| 1.20.1 – 1.20.6 | Java 21 |
-| 1.21.1 – 1.21.11 | Java 21 |
-| 26.1 (snapshot) | Java 25 |
+| Minecraft | Java | Loom Plugin |
+|-----------|------|-------------|
+| 1.18.2, 1.19.4 | Java 17 | `fabric-loom-remap` |
+| 1.20.1 – 1.20.6 | Java 21 | `fabric-loom-remap` |
+| 1.21.1 – 1.21.11 | Java 21 | `fabric-loom-remap` |
+| 26.1 | Java 25 | `fabric-loom` (unobfuscated) |
 
-> Single codebase, 13 version subprojects, preprocessor handles the rest.
+> Single codebase, 14 version subprojects, [ReplayMod preprocessor](https://github.com/ReplayMod/preprocessor) handles the rest.
+> Build structure follows [fabric-mod-template](https://github.com/Fallen-Breath/fabric-mod-template).
 
 ## Commands
 

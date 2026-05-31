@@ -4,8 +4,15 @@ import groovy.json.JsonSlurper
 plugins {
     id("java-library")
     id("maven-publish")
-    id("mod-plugin")
 }
+
+// Inline property accessors (replaces buildSrc ModProjectExtension)
+fun Project.propStr(key: String): String = findProperty(key)?.toString()
+    ?: throw GradleException("Property '$key' not configured")
+
+val modMavenGroup: String by lazy { rootProject.propStr("maven_group") }
+val modArchivesBaseName: String by lazy { rootProject.propStr("archives_base_name") }
+val modVersion: String by lazy { rootProject.propStr("mod_version") }
 
 repositories {
     mavenLocal()
@@ -14,7 +21,7 @@ repositories {
 }
 
 group = modMavenGroup
-version = fullProjectVersion
+version = modVersion
 
 base {
     archivesName.set("$modArchivesBaseName-versionpack")
@@ -99,7 +106,7 @@ publishing {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
             artifactId = modArchivesBaseName
-            version = fullProjectVersion
+            version = modVersion
         }
     }
     repositories {

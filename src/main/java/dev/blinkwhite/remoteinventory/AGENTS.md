@@ -2,7 +2,7 @@
 
 ## OVERVIEW
 
-Core mod source: 8 Java files across 4 packages implementing remote container inventory resolution. All files are preprocessed via `//#if` directives to support 13 Minecraft versions.
+Core mod source: 8 Java files across 4 packages implementing remote container inventory resolution. All files are preprocessed via `//#if` directives to support 14 Minecraft versions.
 
 ## STRUCTURE
 
