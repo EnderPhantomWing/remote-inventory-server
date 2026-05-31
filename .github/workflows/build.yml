@@ -22,7 +22,7 @@ jobs:
       - name: Setup jdk
         uses: actions/setup-java@v5
         with:
-          java-version: '25'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Cache Gradle dependencies
