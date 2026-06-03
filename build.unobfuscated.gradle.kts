@@ -41,16 +41,11 @@ if (System.getenv("JITPACK") == "true") {
 
 loom {
     val commonVmArgs = listOf("-Dmixin.debug.export=true", "-Dmixin.debug.verbose=true", "-Dmixin.env.remapRefMap=true")
-    val commonProgramArgs = listOf("--width", "1280", "--height", "720", "--username", "dev")
 
     runs {
-        named("client") {
+        named("server") {
             ideConfigGenerated(true)
             vmArgs(commonVmArgs)
-            programArgs(commonProgramArgs)
-            runDir= "../../run/client"
-        }
-        named("server") {
             runDir = "../../run/server"
         }
     }

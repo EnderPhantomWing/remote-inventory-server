@@ -57,3 +57,4 @@ node_modules/
 
 # --- Kotlin ---
 .kotlin/
+*.salive
