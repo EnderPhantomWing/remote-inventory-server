@@ -19,6 +19,9 @@ public class RemoteInvConfig {
     @Getter
     private static double maxInteractionDistance = 32.0;
     @Getter
+    @Setter
+    private static boolean distanceLimitEnabled = true;
+    @Getter
     private static final Set<String> whitelist = new HashSet<>();
     @Getter
     private static final Set<String> blacklist = new HashSet<>();
@@ -34,6 +37,7 @@ public class RemoteInvConfig {
             ConfigData data = GSON.fromJson(reader, ConfigData.class);
             if (data == null) return;
             maxInteractionDistance = clamp(data.distance);
+            distanceLimitEnabled = data.distanceLimitEnabled;
             whitelistEnabled = data.whitelistEnabled;
             whitelist.clear();
             if (data.whitelist != null) whitelist.addAll(data.whitelist);
@@ -49,6 +53,7 @@ public class RemoteInvConfig {
     public static void save() {
         ConfigData data = new ConfigData();
         data.distance = maxInteractionDistance;
+        data.distanceLimitEnabled = distanceLimitEnabled;
         data.whitelistEnabled = whitelistEnabled;
         data.whitelist = new HashSet<>(whitelist);
         data.blacklist = new HashSet<>(blacklist);
@@ -118,6 +123,7 @@ public class RemoteInvConfig {
 
     private static class ConfigData {
         double distance = 32.0;
+        boolean distanceLimitEnabled = true;
         boolean whitelistEnabled;
         Set<String> whitelist = new HashSet<>();
         Set<String> blacklist = new HashSet<>();

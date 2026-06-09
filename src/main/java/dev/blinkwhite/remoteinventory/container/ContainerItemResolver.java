@@ -19,10 +19,12 @@ public class ContainerItemResolver {
                                           String itemIdStr, int slot) {
         Level level = getPlayerLevel(player);
 
-        double maxDist = RemoteInvConfig.getMaxInteractionDistance();
-        double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        if (distance > maxDist * maxDist) {
-            return ResultType.PLAYER_TOO_FAR;
+        if (RemoteInvConfig.isDistanceLimitEnabled()) {
+            double maxDist = RemoteInvConfig.getMaxInteractionDistance();
+            double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+            if (distance > maxDist * maxDist) {
+                return ResultType.PLAYER_TOO_FAR;
+            }
         }
 
         if (!level.isLoaded(pos)) {
@@ -113,9 +115,14 @@ public class ContainerItemResolver {
             ServerPlayer player, BlockPos pos) {
         Level level = getPlayerLevel(player);
 
-        double maxDist = RemoteInvConfig.getMaxInteractionDistance();
-        double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        if (distance > maxDist * maxDist || !level.isLoaded(pos)) {
+        if (RemoteInvConfig.isDistanceLimitEnabled()) {
+            double maxDist = RemoteInvConfig.getMaxInteractionDistance();
+            double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+            if (distance > maxDist * maxDist) {
+                return java.util.List.of();
+            }
+        }
+        if (!level.isLoaded(pos)) {
             return java.util.List.of();
         }
 

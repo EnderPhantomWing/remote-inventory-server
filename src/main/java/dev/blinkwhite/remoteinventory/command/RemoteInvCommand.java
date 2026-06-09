@@ -23,6 +23,14 @@ public class RemoteInvCommand {
                     .then(Commands.argument("value", DoubleArgumentType.doubleArg(1.0, 256.0))
                         .executes(RemoteInvCommand::setDistance)
                     )
+                    .then(Commands.literal("enable")
+                        .executes(ctx -> { RemoteInvConfig.setDistanceLimitEnabled(true);
+                            send(ctx, PREFIX + "distance.enable"); return 1; })
+                    )
+                    .then(Commands.literal("disable")
+                        .executes(ctx -> { RemoteInvConfig.setDistanceLimitEnabled(false);
+                            send(ctx, PREFIX + "distance.disable"); return 1; })
+                    )
                     .executes(RemoteInvCommand::getDistance)
                 )
                 .then(Commands.literal("whitelist")
@@ -157,6 +165,7 @@ public class RemoteInvCommand {
 
     private static int showConfig(CommandContext<CommandSourceStack> ctx) {
         send(ctx, PREFIX + "config.distance", RemoteInvConfig.getMaxInteractionDistance());
+        send(ctx, PREFIX + "config.distance_enabled", RemoteInvConfig.isDistanceLimitEnabled());
         send(ctx, PREFIX + "config.whitelist_enabled", RemoteInvConfig.isWhitelistEnabled());
         send(ctx, PREFIX + "config.whitelist", RemoteInvConfig.getWhitelist().toString());
         send(ctx, PREFIX + "config.blacklist", RemoteInvConfig.getBlacklist().toString());
